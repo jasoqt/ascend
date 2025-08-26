@@ -19,9 +19,31 @@ export const getSupabaseErrorMessage = (error) => {
         return 'Password must be at least 6 characters long'
       case 'Signup is disabled':
         return 'Account creation is currently disabled'
+      case 'Invalid login credentials':
+        return 'Invalid email or password. Please check your credentials and try again.'
+      case 'Email not confirmed':
+        return 'Please check your email and click the verification link before signing in.'
+      case 'Too many requests':
+        return 'Too many login attempts. Please wait a moment before trying again.'
+      case 'User not found':
+        return 'No account found with this email address.'
+      case 'Invalid password':
+        return 'Incorrect password. Please try again.'
       default:
         return error.message
     }
   }
   return 'An unexpected error occurred. Please try again.'
+}
+
+// Helper function to check if user is authenticated
+export const getCurrentUser = async () => {
+  const { data: { user } } = await supabase.auth.getUser()
+  return user
+}
+
+// Helper function to sign out
+export const signOut = async () => {
+  const { error } = await supabase.auth.signOut()
+  return { error }
 }

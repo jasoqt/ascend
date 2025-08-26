@@ -3,13 +3,15 @@
 /* Main container */
 .home-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh; /* Change min-height to height */
   background-color: var(--bg-dark);
+  overflow: hidden; /* Prevent body scroll */
 }
 
 /* Sidebar */
 .sidebar {
   width: 250px;
+  height: 100vh; /* Add this */
   background-color: var(--bg-darker);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -127,7 +129,27 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden; /* Change from overflow-x to just overflow */
+  height: 100%; /* Add this */
+}
+
+/* Header - keep it fixed */
+.header {
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-darker);
+  flex-shrink: 0; /* Add this to prevent header from shrinking */
+}
+
+/* Content area - make it scrollable */
+.content-area {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto; /* This enables vertical scrolling */
+  height: calc(100vh - 80px); /* Adjust based on your header height */
 }
 
 /* Header */
@@ -182,18 +204,50 @@
   color: var(--primary-color);
 }
 
-.user-avatar img {
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--primary-color);
+  overflow: hidden;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 /* Content area */
 .content-area {
   flex: 1;
   padding: 2rem;
-  overflow-y: auto;
+  overflow-y: auto; /* This enables vertical scrolling */
+  height: calc(100vh - 80px); /* Adjust based on your header height */
 }
 
 /* Dashboard content */
@@ -641,22 +695,6 @@
 }
 
 @media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    transform: translateX(-100%);
-  }
-  
-  .sidebar.active {
-    transform: translateX(0);
-  }
-  
-  .close-menu {
-    display: block;
-  }
-  
   .menu-toggle {
     display: block;
   }

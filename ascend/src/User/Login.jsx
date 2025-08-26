@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { supabase, getSupabaseErrorMessage } from '../supabase';
 import './styles/Login.css';
 
 const Login = () => {
@@ -28,13 +29,37 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-                // Simulate loading
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Direct navigation to home page without authentication
-            navigate('/home');
+            // Attempt to sign in with Supabase
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
+                email: formData.email,
+                password: formData.password,
+            });
+
+            if (signInError) {
+                console.error('Login error:', signInError);
+                setError(getSupabaseErrorMessage(signInError));
+                setIsLoading(false);
+                return;
+            }
+
+            if (data.user) {
+                // Check if email is confirmed
+                if (!data.user.email_confirmed_at) {
+                    setError('Please check your email and click the verification link before signing in.');
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Successfully logged in
+                console.log('Login successful:', data.user);
+                
+                // Navigate to home page
+                navigate('/home');
+            }
+
         } catch (err) {
-            setError('An error occurred. Please try again.');
+            console.error('Unexpected login error:', err);
+            setError('An unexpected error occurred. Please try again.');
         } finally {
             setIsLoading(false);
         }

@@ -14,19 +14,38 @@
   margin-bottom: 2rem;
 }
 
+.profile-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
 .profile-avatar {
   flex-shrink: 0;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid var(--primary-color);
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: 3px solid var(--primary-color);
 }
 
 .profile-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .profile-info {
@@ -40,12 +59,12 @@
 
 .profile-info-container {
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   width: 100%;
 }
 
 .profile-left {
-  flex: 2;
+  flex: 2.5;
   display: flex;
   flex-direction: column;
 }
@@ -54,18 +73,40 @@
   flex: 1;
   display: flex;
   align-items: flex-start;
-  padding-top: 2rem;
+  padding-top: 1rem;
 }
 
 .profile-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+  margin: 1rem 0;
   padding: 1.5rem;
   background-color: var(--bg-darker);
   border-radius: var(--radius-md);
   width: 100%;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem 2rem;
+  width: 100%;
+}
+
+.profile-name-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile-name-info h3 {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 1.5rem;
+}
+
+.profile-name-info p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 0.875rem;
 }
 
 .detail-item {
@@ -77,12 +118,16 @@
 .detail-item label {
   font-size: 0.875rem;
   color: var(--text-light);
+  font-weight: 500;
 }
 
 .detail-item span {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-dark);
+  min-height: 1.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .profile-stats {
@@ -109,25 +154,128 @@
   font-size: 0.875rem;
   color: var(--text-light);
   margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .stat-item span {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--primary-color);
 }
 
-.profile-settings {
-  background-color: var(--bg-card);
-  border-radius: var(--radius-md);
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+/* Button styles */
+.profile-actions {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.profile-settings h3 {
-  margin-bottom: 1rem;
+.edit-profile-btn,
+.save-profile-btn,
+.cancel-edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.edit-profile-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.save-profile-btn {
+  background-color: var(--success-color, #28a745);
+  color: white;
+}
+
+.cancel-edit-btn {
+  background-color: var(--gray-color, #6c757d);
+  color: white;
+}
+
+.edit-profile-btn:hover,
+.save-profile-btn:hover,
+.cancel-edit-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.edit-profile-btn:disabled,
+.save-profile-btn:disabled,
+.cancel-edit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Inline input styles for editing mode */
+.inline-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm, 4px);
+  background-color: var(--bg-card);
   color: var(--text-dark);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 1.5rem;
+}
+
+.inline-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color, #007bff)20;
+}
+
+.inline-input::placeholder {
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* Alert styles */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  font-size: 0.9375rem;
+}
+
+.alert-error {
+  background-color: var(--error-bg, #f8d7da);
+  color: var(--error-text, #721c24);
+  border: 1px solid var(--error-border, #f5c6cb);
+}
+
+.alert-success {
+  background-color: var(--success-bg, #d4edda);
+  color: var(--success-text, #155724);
+  border: 1px solid var(--success-border, #c3e6cb);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+  .details-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .profile-info-container {
+    gap: 2rem;
+  }
+  
+  .details-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -140,16 +288,73 @@
     gap: 1rem;
   }
   
-  .profile-info-container {
+  .profile-header-container {
     flex-direction: column;
+    align-items: flex-start;
     gap: 1rem;
   }
   
-  .profile-details {
+  .profile-info-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .profile-left,
+  .profile-right {
+    flex: 1;
+  }
+  
+  .profile-right {
+    padding-top: 0;
+  }
+  
+  .details-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .profile-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .profile-avatar-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .edit-profile-btn,
+  .save-profile-btn,
+  .cancel-edit-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .profile-actions {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-info {
+    padding: 1.5rem;
+  }
+  
+  .profile-details {
+    padding: 1rem;
   }
   
   .profile-stats {
     grid-template-columns: 1fr;
+  }
+  
+  .stat-item {
+    padding: 1rem;
   }
 }
