@@ -32,7 +32,29 @@ const Home = () => {
       { id: 1, name: 'Morning Run', calories: 320, duration: '30 min', date: 'Today' },
       { id: 2, name: 'Core Workout', calories: 210, duration: '20 min', date: 'Yesterday' },
       { id: 3, name: 'Leg Day', calories: 450, duration: '45 min', date: '2 days ago' }
-    ]
+    ],
+    age: 28,
+    weight: 75, // in kg
+    height: 175, // in cm
+    bmi: 24.5,
+    goal: "Lose weight",
+    macros: {
+      carbs: 45, // percentages
+      protein: 30,
+      fats: 25
+    },
+    weeklyWorkouts: {
+      completed: 2,
+      goal: 3
+    },
+    weightHistory: [
+      { date: '2025-08-17', weight: 76.2 },
+      { date: '2025-08-19', weight: 75.8 },
+      { date: '2025-08-21', weight: 75.5 },
+      { date: '2025-08-23', weight: 75.0 }
+    ],
+    caloriesBurned: 420,
+    workoutsToday: 1
   };
 
   const calculateProgress = (current, goal) => {
@@ -49,6 +71,33 @@ const Home = () => {
       case 'dashboard':
         return (
           <div className="dashboard-content">
+            {/* User Greeting & Profile Summary */}
+            <div className="user-summary-card">
+              <div className="greeting-section">
+                <h2>Hello, {userData.name} 👋</h2>
+                <p>Here's your health summary for today</p>
+              </div>
+              <div className="profile-stats">
+                <div className="stat-item">
+                  <label>Age</label>
+                  <span>{userData.age} years</span>
+                </div>
+                <div className="stat-item">
+                  <label>Weight</label>
+                  <span>{userData.weight} kg</span>
+                </div>
+                <div className="stat-item">
+                  <label>BMI</label>
+                  <span>{userData.bmi}</span>
+                </div>
+                <div className="stat-item">
+                  <label>Goal</label>
+                  <span>{userData.goal}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Daily Progress Cards */}
             <div className="progress-summary">
               <div className="summary-card">
                 <h3>Calories</h3>
@@ -60,99 +109,71 @@ const Home = () => {
                 </div>
                 <div className="progress-stats">
                   <span>{userData.caloriesConsumed} / {userData.dailyCalories} kcal</span>
-                  <span>{userData.caloriesRemaining} left</span>
+                  <button className="quick-add-btn">+ Add Meal</button>
                 </div>
               </div>
-              
+
               <div className="summary-card">
-                <h3>Water</h3>
-                <div className="progress-container">
-                  <div 
-                    className="progress-bar water-progress" 
-                    style={{ width: `${calculateProgress(userData.waterIntake, userData.waterGoal)}%` }}
-                  ></div>
-                </div>
-                <div className="progress-stats">
-                  <span>{userData.waterIntake} / {userData.waterGoal} glasses</span>
-                  <span>{userData.waterGoal - userData.waterIntake} to go</span>
+                <h3>Macronutrients</h3>
+                <div className="macros-chart">
+                  <div className="macro-bar">
+                    <div style={{ width: `${userData.macros.carbs}%` }} className="carbs">
+                      Carbs {userData.macros.carbs}%
+                    </div>
+                    <div style={{ width: `${userData.macros.protein}%` }} className="protein">
+                      Protein {userData.macros.protein}%
+                    </div>
+                    <div style={{ width: `${userData.macros.fats}%` }} className="fats">
+                      Fats {userData.macros.fats}%
+                    </div>
+                  </div>
                 </div>
               </div>
-              
+
               <div className="summary-card">
-                <h3>Steps</h3>
-                <div className="progress-container">
-                  <div 
-                    className="progress-bar steps-progress" 
-                    style={{ width: `${calculateProgress(userData.steps, userData.stepsGoal)}%` }}
-                  ></div>
-                </div>
-                <div className="progress-stats">
-                  <span>{userData.steps.toLocaleString()} / {userData.stepsGoal.toLocaleString()}</span>
-                  <span>{(userData.stepsGoal - userData.steps).toLocaleString()} to go</span>
+                <h3>Today's Activity</h3>
+                <div className="activity-stats">
+                  <div className="stat">
+                    <span className="stat-value">{userData.caloriesBurned}</span>
+                    <span className="stat-label">kcal burned</span>
+                  </div>
+                  <div className="stat">
+                    <span className="stat-value">{userData.workoutsToday}</span>
+                    <span className="stat-label">workouts</span>
+                  </div>
+                  <div className="stat">
+                    <span className="stat-value">{userData.weeklyWorkouts.completed}/{userData.weeklyWorkouts.goal}</span>
+                    <span className="stat-label">weekly target</span>
+                  </div>
                 </div>
               </div>
             </div>
-            
+
+            {/* Weight Progress Chart */}
             <div className="dashboard-cards">
-              <div className="card today-meals">
+              <div className="card weight-progress">
                 <div className="card-header">
-                  <h2>Today's Meals</h2>
-                  <a href="#" className="view-all">View all</a>
-                </div>
-                <div className="meals-list">
-                  {userData.meals.map(meal => (
-                    <div key={meal.id} className={`meal-item ${meal.status === 'upcoming' ? 'upcoming' : ''}`}>
-                      <div className="meal-info">
-                        <h3>{meal.name}</h3>
-                        <p>{meal.time}</p>
-                      </div>
-                      <div className="meal-calories">
-                        {meal.status === 'upcoming' ? (
-                          <button className="log-meal-btn">Log meal</button>
-                        ) : (
-                          <>
-                            <span>{meal.calories}</span>
-                            <span className="calorie-unit">kcal</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="card upcoming-workouts">
-                <div className="card-header">
-                  <h2>Upcoming Workout</h2>
-                  <a href="#" className="view-all">View plan</a>
-                </div>
-                <div className="workout-preview">
-                  <div className="workout-info">
-                    <h3>{userData.nextWorkout}</h3>
-                    <p>Today at {userData.workoutTime}</p>
+                  <h2>Weight Progress</h2>
+                  <div className="chart-controls">
+                    <button className="chart-toggle active">Week</button>
+                    <button className="chart-toggle">Month</button>
                   </div>
-                  <button className="start-workout-btn">
-                    Start
-                  </button>
                 </div>
-                <div className="recent-workouts">
-                  <h3>Recent Activity</h3>
-                  <div className="recent-workouts-list">
-                    {userData.recentWorkouts.map(workout => (
-                      <div key={workout.id} className="recent-workout-item">
-                        <div className="workout-details">
-                          <h4>{workout.name}</h4>
-                          <p>{workout.date}</p>
-                        </div>
-                        <div className="workout-stats">
-                          <span>{workout.calories} kcal</span>
-                          <span>{workout.duration}</span>
-                        </div>
+                <div className="weight-chart">
+                  {/* Add your preferred charting library here */}
+                  <div className="placeholder-chart">
+                    {userData.weightHistory.map((entry, index) => (
+                      <div key={index} className="chart-point">
+                        <span className="weight">{entry.weight}</span>
+                        <span className="date">{entry.date}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
+
+              {/* Keep existing cards */}
+              {/* ...existing meal and workout cards... */}
             </div>
           </div>
         );
