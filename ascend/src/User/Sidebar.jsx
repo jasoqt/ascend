@@ -48,12 +48,13 @@ const Sidebar = ({ isMenuOpen, setIsMenuOpen, handleLogout }) => {
               <span>Workouts</span>
             </button>
           </li>
-          <li className={getActiveTab('/progress') ? 'active' : ''}>
+
+        {/* <li className={getActiveTab('/progress') ? 'active' : ''}>
             <button onClick={() => handleNavigation('/progress')}>
               <Calendar size={20} />
               <span>Progress</span>
             </button>
-          </li>
+          </li> */}
           <li className={getActiveTab('/profile') ? 'active' : ''}>
             <button onClick={() => handleNavigation('/profile')}>
               <User size={20} />
